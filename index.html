@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sachin Chandran — Mathematics</title>
+  <style>
+    /* ============================================================
+       TOKENS
+    ============================================================ */
+    :root {
+      --bg:        #F7F7F7;
+      --surface:   #EFEFEF;
+      --border:    #D0D0D0;
+      --text:      #111111;
+      --muted:     #666666;
+      --accent:    #333333;
+      --dark:      #1A1A1A;
+      --white:     #FFFFFF;
+
+      --serif:     Georgia, "Times New Roman", serif;
+      --sans:      system-ui, -apple-system, sans-serif;
+
+      --max:       720px;
+      --gap:       2.5rem;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 1rem;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--muted); }
+
+    /* ============================================================
+       LAYOUT
+    ============================================================ */
+    .container {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    nav {
+      background: var(--dark);
+      color: var(--white);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #333;
+    }
+
+    nav .inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 48px;
+    }
+
+    nav .brand {
+      font-family: var(--serif);
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav ul a {
+      color: #AAAAAA;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.15s;
+    }
+
+    nav ul a:hover { color: var(--white); }
+
+    /* ============================================================
+       HEADER / HERO
+    ============================================================ */
+    header {
+      background: var(--dark);
+      color: var(--white);
+      padding: 4rem 0 3.5rem;
+      border-bottom: 3px solid var(--border);
+    }
+
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5rem;
+    }
+
+    /* ---- headshot ---- */
+    .headshot-wrap {
+      flex-shrink: 0;
+    }
+
+    /* Replace src with your actual photo path, e.g. img/photo.jpg */
+    .headshot {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #444;
+      display: block;
+      /* Placeholder background shown until real photo is added */
+      background: #333;
+    }
+
+    /* ---- name + info ---- */
+    .hero-text h1 {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: normal;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-text .title {
+      font-size: 0.9rem;
+      color: #AAAAAA;
+      margin-bottom: 0.15rem;
+    }
+
+    .hero-text .institution {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 1rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.2rem;
+      font-size: 0.82rem;
+    }
+
+    .contact-links a {
+      color: #CCC;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .contact-links a:hover { color: var(--white); }
+
+    .contact-links .icon {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    /* ============================================================
+       SECTION DIVIDER (signature: double-rule like LaTeX \hrule)
+    ============================================================ */
+    .section-title {
+      font-family: var(--serif);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+      padding-bottom: 0.5rem;
+      /* double-rule */
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 3px 0 0 var(--border);
+    }
+
+    /* ============================================================
+       SECTIONS
+    ============================================================ */
+    section {
+      padding: var(--gap) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-of-type { border-bottom: none; }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    .about-text p {
+      font-size: 0.96rem;
+      max-width: 62ch;
+      margin-bottom: 0.9rem;
+      color: #222;
+    }
+
+    /* ============================================================
+       PUBLICATIONS
+    ============================================================ */
+    .pub-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .pub-list li {
+      font-size: 0.9rem;
+      padding-left: 1.4rem;
+      position: relative;
+    }
+
+    .pub-list li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--muted);
+    }
+
+    .pub-title { font-style: italic; }
+    .pub-meta  { color: var(--muted); font-size: 0.82rem; margin-top: 0.1rem; }
+
+    /* ============================================================
+       TEACHING
+    ============================================================ */
+    .teaching-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    .teaching-table th {
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.4rem 0.8rem 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .teaching-table td {
+      padding: 0.45rem 0.8rem 0.45rem 0;
+      border-bottom: 1px solid var(--surface);
+      vertical-align: top;
+    }
+
+    .teaching-table tr:last-child td { border-bottom: none; }
+
+    /* ============================================================
+       TRAVEL CAROUSEL
+    ============================================================ */
+    .carousel-section { background: var(--dark); }
+
+    .carousel-section .section-title { color: #666; border-color: #333; box-shadow: 0 3px 0 0 #333; }
+
+    .carousel-section .container { padding-top: var(--gap); padding-bottom: var(--gap); }
+
+    .carousel-wrap {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 2px;
+      background: #000;
+      aspect-ratio: 16/9;
+      max-height: 400px;
+    }
+
+    .carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+      will-change: transform;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    /* Replace with real <img> tags pointing to your photos */
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.85;
+    }
+
+    /* Placeholder slide for demo purposes */
+    .slide-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1e1e1e;
+      color: #555;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .slide-placeholder .ph-icon { font-size: 2rem; opacity: 0.3; }
+
+    .slide-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.6rem 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      color: #DDD;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+    }
+
+    .slide-caption .place { font-weight: 600; color: #FFF; }
+    .slide-caption .year  { color: #999; font-size: 0.74rem; margin-left: 0.5rem; }
+
+    /* Prev / Next buttons */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #FFF;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 10;
+      line-height: 1;
+    }
+
+    .carousel-btn:hover { background: rgba(255,255,255,0.2); }
+    .carousel-btn.prev { left: 0.75rem; }
+    .carousel-btn.next { right: 0.75rem; }
+
+    /* Dot nav */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #444;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      border: none;
+    }
+
+    .dot.active { background: #AAA; transform: scale(1.3); }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--dark);
+      color: #555;
+      text-align: center;
+      font-size: 0.75rem;
+      padding: 1.5rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 540px) {
+      .hero { flex-direction: column; gap: 1.2rem; }
+      .hero-text h1 { font-size: 1.5rem; }
+      nav ul { gap: 1rem; }
+      .teaching-table { font-size: 0.8rem; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION
+    ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      .carousel-track { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+============================================================ -->
+<nav aria-label="Site navigation">
+  <div class="inner">
+    <a class="brand" href="#">Sachin Chandran</a>
+    <ul>
+      <li><a href="#about">Research</a></li>
+      <li><a href="#publications">Papers</a></li>
+      <li><a href="#teaching">Teaching</a></li>
+      <li><a href="#travel">Travel</a></li>
+      <li><a href="Chandran_CV.pdf" target="_blank">CV</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header>
+  <div class="hero">
+
+    <!-- ── HEADSHOT ──────────────────────────────────────────
+         Replace the src below with your actual photo.
+         e.g.  src="img/photo.jpg"
+         The image should be roughly square (400×400 px works well).
+    ──────────────────────────────────────────────────────── -->
+    <div class="headshot-wrap">
+      <img class="headshot"
+           src="img/photo.jpg"
+           alt="Sachin Chandran"
+           onerror="this.style.visibility='hidden'" />
+    </div>
+
+    <div class="hero-text">
+      <h1>Sachin Chandran</h1>
+      <p class="title">Ph.D. Candidate in Mathematics</p>
+      <p class="institution">Oklahoma State University, Stillwater, OK</p>
+
+      <div class="contact-links">
+        <a href="mailto:sachin.chandran@okstate.edu">
+          <span class="icon">✉</span> sachin.chandran@okstate.edu
+        </a>
+        <!-- Add / remove links below as needed -->
+        <a href="Chandran_CV.pdf" target="_blank">
+          <span class="icon">↓</span> Curriculum Vitae
+        </a>
+        <!--
+        <a href="https://arxiv.org/search/?searchtype=author&query=Chandran+S" target="_blank">
+          <span class="icon">◈</span> arXiv
+        </a>
+        <a href="https://github.com/YOUR_HANDLE" target="_blank">
+          <span class="icon">⌥</span> GitHub
+        </a>
+        -->
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- ============================================================
+     ABOUT / RESEARCH
+============================================================ -->
+<section id="about">
+  <div class="container">
+    <h2 class="section-title">Research</h2>
+    <div class="about-text">
+      <p>
+        My research lies in Lie theory and the representation theory of reductive groups.
+        My doctoral work studies the geometric relationship between the representations
+        of <em>p</em>-adic groups and real reductive groups, in the spirit of the
+        Adams–Barbasch–Vogan framework and the local Langlands correspondence,
+        using tools from Kazhdan–Lusztig theory.
+      </p>
+      <p>
+        I am advised by
+        <a href="https://math.okstate.edu/people/leticia/" target="_blank">Prof. Leticia Barchini</a>
+        at the Department of Mathematics, Oklahoma State University.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PUBLICATIONS & PREPRINTS
+============================================================ -->
+<section id="publications">
+  <div class="container">
+    <h2 class="section-title">Publications &amp; Preprints</h2>
+    <ul class="pub-list">
+
+      <!-- ── ADD YOUR PAPERS BELOW ───────────────────────────
+           Copy the <li> block and fill in each field.
+           For "in preparation" items, leave the pub-meta empty
+           or write "in preparation, 2026".
+      ──────────────────────────────────────────────────────── -->
+      <li>
+        <span class="pub-title">Title of paper or preprint.</span>
+        <div class="pub-meta">
+          With Co-Author Name. &nbsp;·&nbsp; <em>Journal / arXiv:xxxx.xxxxx</em>, Year.
+        </div>
+      </li>
+
+      <li>
+        <span class="pub-title">Another paper title.</span>
+        <div class="pub-meta">In preparation, 2026.</div>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     TEACHING
+============================================================ -->
+<section id="teaching">
+  <div class="container">
+    <h2 class="section-title">Teaching</h2>
+    <p style="font-size:0.88rem; color:var(--muted); margin-bottom:1.2rem;">
+      Instructor of Record, Oklahoma State University
+    </p>
+    <table class="teaching-table" aria-label="Teaching history">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>Terms</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Calculus I (online)</td>
+          <td>Summer 2026, Spring 2026, Summer 2025</td>
+        </tr>
+        <tr>
+          <td>Calculus I</td>
+          <td>Fall 2025, Spring 2025, Fall 2024, Spring 2024, Fall 2023, Spring 2023</td>
+        </tr>
+        <tr>
+          <td>Differential Equations</td>
+          <td>Summer 2023</td>
+        </tr>
+        <tr>
+          <td>Preparation for Calculus</td>
+          <td>Fall 2022, Spring 2022</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRAVEL CAROUSEL
+============================================================ -->
+<section id="travel" class="carousel-section">
+  <div class="container">
+    <h2 class="section-title">Places</h2>
+
+    <div class="carousel-wrap" id="carousel">
+
+      <div class="carousel-track" id="track">
+
+        <!-- ── HOW TO ADD YOUR PHOTOS ──────────────────────────
+             For each place you've visited:
+
+             1. Copy one <div class="slide">…</div> block.
+             2. Replace the .slide-placeholder div with:
+                  <img src="img/place-name.jpg" alt="Description" />
+             3. Update the caption: place name and year.
+
+             Recommended image size: 1200×675 px (16:9), < 300 KB.
+             Put all photos in an  img/  folder next to index.html.
+        ──────────────────────────────────────────────────────── -->
+
+        <div class="slide">
+          <div class="slide-placeholder">
+            <span class="ph-icon">🏔</span>
+            <span>Add a photo — see comments in HTML</span>
+          </div>
+          <div class="slide-caption">
+            <span class="place">Place Name</span>
+            <span class="year">Year</span>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="slide-placeholder">
+            <span class="ph-icon">🌊</span>
+            <span>img/your-photo.jpg</span>
+          </div>
+          <div class="slide-caption">
+            <span class="place">Another Place</span>
+            <span class="year">Year</span>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="slide-placeholder">
+            <span class="ph-icon">🏛</span>
+            <span>img/your-photo.jpg</span>
+          </div>
+          <div class="slide-caption">
+            <span class="place">Another Place</span>
+            <span class="year">Year</span>
+          </div>
+        </div>
+
+      </div><!-- /track -->
+
+      <button class="carousel-btn prev" id="prev" aria-label="Previous photo">&#8249;</button>
+      <button class="carousel-btn next" id="next" aria-label="Next photo">&#8250;</button>
+
+    </div><!-- /carousel-wrap -->
+
+    <div class="carousel-dots" id="dots" aria-label="Slide indicators"></div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <p>Sachin Chandran &nbsp;·&nbsp; Department of Mathematics, Oklahoma State University</p>
+  <p style="margin-top:0.3rem;">
+    <a href="mailto:sachin.chandran@okstate.edu" style="color:#555;">sachin.chandran@okstate.edu</a>
+  </p>
+</footer>
+
+<!-- ============================================================
+     CAROUSEL SCRIPT
+============================================================ -->
+<script>
+  (function () {
+    const track  = document.getElementById('track');
+    const dotsEl = document.getElementById('dots');
+    const slides = Array.from(track.children);
+    let current  = 0;
+    let timer;
+
+    // Build dots
+    slides.forEach((_, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'dot' + (i === 0 ? ' active' : '');
+      btn.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      btn.addEventListener('click', () => goTo(i));
+      dotsEl.appendChild(btn);
+    });
+
+    function updateDots() {
+      dotsEl.querySelectorAll('.dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    function goTo(index) {
+      current = (index + slides.length) % slides.length;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      updateDots();
+    }
+
+    document.getElementById('prev').addEventListener('click', () => {
+      goTo(current - 1);
+      resetTimer();
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+      goTo(current + 1);
+      resetTimer();
+    });
+
+    // Auto-advance every 5 s
+    function startTimer() {
+      timer = setInterval(() => goTo(current + 1), 5000);
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      startTimer();
+    }
+
+    // Pause on hover
+    const wrap = document.getElementById('carousel');
+    wrap.addEventListener('mouseenter', () => clearInterval(timer));
+    wrap.addEventListener('mouseleave', startTimer);
+
+    // Touch/swipe support
+    let startX = null;
+    wrap.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    wrap.addEventListener('touchend', e => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) { dx < 0 ? goTo(current + 1) : goTo(current - 1); resetTimer(); }
+      startX = null;
+    }, { passive: true });
+
+    startTimer();
+  })();
+</script>
+
+</body>
+</html>
